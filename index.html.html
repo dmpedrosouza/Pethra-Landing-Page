@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pethra — Estrutura de IA que sustenta, organiza e faz crescer</title>
+<meta name="description" content="Pethra Soluções com IA: agentes de IA 24/7, consultoria, funis, automações, landing pages e sistema próprio para clínicas. De Belo Horizonte para todo o Brasil." />
+<meta name="theme-color" content="#0a0a12" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Michroma&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --bg: #0a0a12;
+  --bg-elev: #11111a;
+  --surface: #181822;
+  --surface-2: #1f1f2c;
+
+  --border: #25252f;
+  --border-strong: #34343f;
+
+  --ink: #f4f0e7;
+  --ink-soft: #b8b4ad;
+  --ink-mute: #75757e;
+
+  --blue: #9bb8e6;
+  --blue-deep: #4a6da8;
+  --blue-bright: #c5d7f0;
+  --blue-glow: rgba(155, 184, 230, 0.16);
+
+  --cream: #e8d9b5;
+  --cream-soft: rgba(232, 217, 181, 0.5);
+
+  --grad: linear-gradient(135deg, #4a6da8 0%, #9bb8e6 50%, #c5d7f0 100%);
+
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-logo: 'Michroma', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  font-feature-settings: "ss01", "cv01";
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+::selection { background: var(--cream); color: #0a0a12; }
+
+/* ===== GRAIN TEXTURE (full page overlay) ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 1000;
+  mix-blend-mode: overlay;
+  animation: grainShift 8s steps(6) infinite;
+}
+@keyframes grainShift {
+  0% { transform: translate(0,0); }
+  20% { transform: translate(-2%, 1%); }
+  40% { transform: translate(1%, -1%); }
+  60% { transform: translate(-1%, -2%); }
+  80% { transform: translate(2%, 1%); }
+  100% { transform: translate(0,0); }
+}
+
+/* ===== AMBIENT AURORA (fixed, very subtle) ===== */
+.aurora {
+  position: fixed; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.aurora .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  will-change: transform;
+}
+.aurora .o1 { width: 540px; height: 540px; background: rgba(74, 109, 168, 0.18); top: 4%; left: -10%; animation: drift1 28s ease-in-out infinite; }
+.aurora .o2 { width: 460px; height: 460px; background: rgba(155, 184, 230, 0.10); top: 58%; right: -10%; animation: drift2 34s ease-in-out infinite; }
+.aurora .o3 { width: 400px; height: 400px; background: rgba(232, 217, 181, 0.04); bottom: 8%; left: 38%; animation: drift3 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(80px,90px) scale(1.06); } 66% { transform: translate(-40px,50px) scale(0.95); } }
+@keyframes drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-100px,-70px) scale(1.12); } }
+@keyframes drift3 { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(120px,-60px) scale(1.08); } 66% { transform: translate(-30px,-90px) scale(0.92); } }
+
+main, header, footer, section { position: relative; z-index: 1; }
+
+/* ===== CUSTOM CURSOR (desktop only) ===== */
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  mix-blend-mode: difference;
+}
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--ink);
+  transform: translate(-50%,-50%);
+  transition: opacity .2s ease;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(244, 240, 231, 0.4);
+  transform: translate(-50%,-50%);
+  transition: transform .15s ease, opacity .2s ease, width .25s ease, height .25s ease;
+}
+.cursor-ring.hover { width: 64px; height: 64px; border-color: rgba(232, 217, 181, 0.7); }
+@media (hover: none), (pointer: coarse) { .cursor-dot, .cursor-ring { display: none; } }
+
+/* ===== TYPOGRAPHY ===== */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--cream);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-optical-sizing: auto;
+}
+h1 {
+  font-size: clamp(2.6rem, 6.8vw, 6.2rem);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+}
+h2 { font-size: clamp(2rem, 4.5vw, 3.8rem); font-variation-settings: "opsz" 80; }
+h3 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-variation-settings: "opsz" 40; }
+h4 { font-size: 1.1rem; font-variation-settings: "opsz" 14; }
+
+.italic { font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 100; color: var(--cream); }
+.italic-blue { font-style: italic; color: var(--blue-bright); }
+
+.body-lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.18rem);
+  color: var(--ink-soft);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.logo-text { font-family: var(--font-logo); letter-spacing: 0.2em; font-weight: 400; }
+
+/* ===== LAYOUT ===== */
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 600px) { .container { padding: 0 22px; } }
+
+section { padding: 140px 0; }
+@media (max-width: 768px) { section { padding: 90px 0; } }
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0;
+}
+
+/* ===== CTAs ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.98rem;
+  padding: 17px 22px 17px 28px;
+  border-radius: 100px;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), background .3s ease, color .3s ease, box-shadow .3s ease;
+  letter-spacing: -0.005em;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn.primary {
+  background: var(--cream);
+  color: #0a0a12;
+}
+.btn.primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(10,10,18,0.12), transparent);
+  transform: translateX(-100%);
+  transition: transform .8s ease;
+  z-index: -1;
+}
+.btn.primary:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 18px 50px rgba(232,217,181,0.18); }
+.btn.primary:hover::after { transform: translateX(100%); }
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(8px);
+}
+.btn.ghost:hover {
+  border-color: var(--cream);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+.btn .arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #0a0a12; color: var(--cream);
+  transition: transform .3s ease;
+}
+.btn.primary:hover .arrow { transform: translate(4px,-3px) rotate(-8deg); }
+.btn.ghost .arrow { background: transparent; border: 1px solid var(--border-strong); color: var(--ink); }
+.btn.ghost:hover .arrow { border-color: var(--cream); color: var(--cream); transform: translate(4px,-3px); }
+
+/* ===== NAV ===== */
+.site-header {
+  position: fixed; top: 16px; left: 0; right: 0;
+  z-index: 100;
+  display: flex; justify-content: center;
+  padding: 0 16px;
+}
+.nav-pill {
+  display: flex; align-items: center; gap: 36px;
+  padding: 12px 14px 12px 28px;
+  background: rgba(17, 17, 26, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.site-header.scrolled .nav-pill {
+  background: rgba(10, 10, 18, 0.85);
+  border-color: var(--border-strong);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.5);
+}
+
+.nav-logo { display: inline-flex; align-items: center; gap: 12px; color: var(--ink); }
+.nav-logo .mountain { color: var(--blue-bright); }
+.nav-logo .logo-text { font-size: 0.92rem; }
+
+.nav-links { display: flex; gap: 26px; list-style: none; }
+.nav-links a {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color .25s ease;
+  position: relative;
+  letter-spacing: -0.005em;
+}
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; bottom: -6px;
+  width: 0; height: 1px; background: var(--cream);
+  transition: width .3s ease;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--cream);
+  color: #0a0a12;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 9px 9px 9px 18px;
+  border-radius: 100px;
+  transition: filter .25s ease, transform .25s ease;
+}
+.nav-cta:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.nav-cta .arrow {
+  width: 26px; height: 26px;
+  background: #0a0a12; color: var(--cream);
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+.nav-toggle { display: none; padding: 8px; color: var(--ink); }
+
+@media (max-width: 1020px) {
+  .nav-links, .nav-cta { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .nav-pill { gap: 14px; padding: 12px 14px 12px 22px; }
+  .site-header.menu-open .nav-pill { border-radius: 24px; flex-direction: column; align-items: stretch; padding: 22px; gap: 18px; }
+  .site-header.menu-open .nav-links { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
+  .site-header.menu-open .nav-cta { display: inline-flex; justify-content: center; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  padding: 200px 0 100px;
+  display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(155,184,230,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,184,230,0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 90% 80% at 30% 40%, black 25%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 30% 40%, black 25%, transparent 85%);
+  pointer-events: none;
+}
+.hero-vline {
+  position: absolute; top: 100px; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--border-strong) 20%, var(--border-strong) 80%, transparent);
+}
+.hero-vline.l1 { left: 8%; }
+.hero-vline.l2 { right: 8%; }
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 1024px) { .hero-content { grid-template-columns: 1fr; gap: 56px; } }
+
+.hero-left { display: flex; flex-direction: column; gap: 36px; }
+
+.hero h1 {
+  margin: 0;
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "SOFT" 50, "wght" 320;
+}
+.hero h1 .num {
+  font-style: italic;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  display: inline-block;
+  position: relative;
+}
+.hero h1 .under {
+  font-style: italic;
+  color: var(--blue-bright);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+}
+
+.hero-sub { max-width: 540px; }
+.hero-sub p {
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.hero-ctas { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  max-width: 560px;
+}
+.hero-meta-item { display: flex; flex-direction: column; gap: 6px; }
+.hero-meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.hero-meta-value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  font-variation-settings: "opsz" 60, "SOFT" 80;
+  letter-spacing: -0.02em;
+}
+
+/* HERO RIGHT — tilted preview frame */
+.hero-right {
+  position: relative;
+  display: flex; justify-content: center;
+}
+.hero-preview {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 9 / 16;
+  border-radius: 28px;
+  overflow: hidden;
+  transform: rotate(2.5deg);
+  background: #000;
+  border: 1px solid var(--border-strong);
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(155,184,230,0.10),
+    0 0 120px rgba(74,109,168,0.22);
+  transition: transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.hero-preview:hover { transform: rotate(0deg) translateY(-6px); }
+.hero-preview video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 28px;
+  display: block;
+}
+.hero-preview .preview-stamp {
+  position: absolute; top: -16px; right: -16px;
+  background: var(--cream);
+  color: #0a0a12;
+  padding: 9px 16px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  transform: rotate(-4deg);
+  z-index: 3;
+  box-shadow: 0 12px 30px rgba(232,217,181,0.25);
+}
+.hero-preview .preview-pulse {
+  position: absolute; bottom: 16px; left: 16px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px;
+  background: rgba(10,10,18,0.7);
+  border: 1px solid rgba(155,184,230,0.3);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--blue-bright);
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  z-index: 3;
+}
+.hero-preview .preview-pulse::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+@media (max-width: 1024px) {
+  .hero-right { order: -1; }
+  .hero-preview { max-width: 260px; transform: rotate(2deg); }
+}
+
+/* ===== MARQUEE ===== */
+.marquee-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(17,17,26,0.4);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.marquee { display: flex; gap: 64px; width: max-content; animation: scrollMarq 42s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+.marquee-item {
+  display: inline-flex; align-items: center; gap: 18px;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--ink);
+  font-variation-settings: "opsz" 60, "SOFT" 100;
+  letter-spacing: -0.02em;
+}
+.marquee-item .sep {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--cream);
+  font-style: normal;
+}
+@keyframes scrollMarq { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ===== SECTION HEADER ===== */
+.section-head {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 64px;
+  margin-bottom: 80px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .section-head { grid-template-columns: 1fr; gap: 28px; }
+}
+.section-head .index {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.section-head .index strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cream);
+  font-weight: 700;
+}
+.section-head h2 { max-width: 880px; font-weight: 300; font-variation-settings: "opsz" 80, "wght" 320; }
+.section-head .sub {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin-top: 20px;
+  line-height: 1.55;
+}
+
+/* ===== PROBLEMA ===== */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+@media (max-width: 900px) { .problem-grid { grid-template-columns: 1fr; } }
+
+.problem-card {
+  background: var(--bg);
+  padding: 56px 44px 48px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: background .35s ease;
+}
+.problem-card:hover { background: var(--bg-elev); }
+.problem-card .marker {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.problem-card .stat {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(4rem, 7vw, 6.5rem);
+  line-height: 0.9;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 360;
+  letter-spacing: -0.04em;
+  margin-bottom: 4px;
+}
+.problem-card .label {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--ink);
+  line-height: 1.2;
+  font-variation-settings: "opsz" 40;
+}
+.problem-card p {
+  color: var(--ink-soft);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.problem-quote {
+  margin-top: 80px;
+  padding: 56px 64px;
+  border-left: 1px solid var(--cream);
+  position: relative;
+  max-width: 880px;
+}
+.problem-quote::before {
+  content: '"';
+  position: absolute;
+  top: 0; left: 20px;
+  font-family: var(--font-display);
+  font-size: 8rem;
+  line-height: 1;
+  color: var(--cream-soft);
+  font-style: italic;
+}
+.problem-quote p {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.3;
+  font-weight: 400;
+  font-variation-settings: "opsz" 80;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.problem-quote p em { color: var(--cream); font-variation-settings: "opsz" 80, "SOFT" 100; }
+.problem-quote .source {
+  display: block;
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+@media (max-width: 700px) {
+  .problem-quote { padding: 40px 28px; }
+  .problem-quote::before { top: -10px; left: 8px; font-size: 5rem; }
+}
+
+/* ===== DIFERENCIAL (editorial pull quote layout) ===== */
+.diferencial {
+  padding: 160px 0;
+  text-align: center;
+}
+.diferencial .lead-quote {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 6vw, 5.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 1080px;
+  margin: 0 auto 80px;
+  font-variation-settings: "opsz" 144, "SOFT" 50, "wght" 320;
+}
+.diferencial .lead-quote .strike {
+  position: relative;
+  font-style: italic;
+  color: var(--ink-mute);
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.diferencial .lead-quote .strike::after {
+  content: '';
+  position: absolute;
+  left: -5%; right: -5%; top: 52%;
+  height: 2px;
+  background: var(--cream);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: strikeIn 1.4s cubic-bezier(.2,.8,.2,1) .5s forwards;
+}
+@keyframes strikeIn { to { transform: scaleX(1); } }
+.diferencial .lead-quote .em {
+  font-style: italic;
+  color: var(--cream);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+}
+
+.diff-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  text-align: left;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 1024px) { .diff-list { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .diff-list { grid-template-columns: 1fr; } }
+
+.diff-item {
+  padding: 48px 32px;
+  border-right: 1px solid var(--border);
+  transition: background .3s ease;
+  position: relative;
+}
+.diff-item:last-child { border-right: none; }
+@media (max-width: 1024px) {
+  .diff-item:nth-child(2n) { border-right: none; }
+  .diff-item:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 600px) {
+  .diff-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .diff-item:last-child { border-bottom: none; }
+}
+.diff-item:hover { background: var(--bg-elev); }
+.diff-item .num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--cream);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.diff-item h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  line-height: 1.15;
+  font-variation-settings: "opsz" 40;
+}
+.diff-item h4 .it { font-style: italic; color: var(--cream); }
+.diff-item p { color: var(--ink-soft); font-size: 0.94rem; line-height: 1.55; }
+
+/* ===== SERVIÇOS ===== */
+.services-section { padding: 140px 0 60px; }
+
+/* AI agents featured — magazine cover style */
+.feat-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  margin-bottom: 80px;
+}
+@media (max-width: 900px) { .feat-card { grid-template-columns: 1fr; } }
+
+.feat-card .feat-text {
+  padding: 72px 64px;
+  position: relative;
+  display: flex; flex-direction: column; gap: 24px;
+}
+@media (max-width: 700px) { .feat-card .feat-text { padding: 48px 28px; } }
+
+.feat-card .feat-text::before {
+  content: '01';
+  position: absolute;
+  top: 24px; left: 28px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--cream);
+  font-variation-settings: "opsz" 40, "SOFT" 100;
+}
+.feat-card .feat-meta {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  padding-top: 16px;
+}
+.feat-card h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 144, "SOFT" 50, "wght" 320;
+}
+.feat-card h3 .em { font-style: italic; color: var(--cream); font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 360; }
+.feat-card .feat-desc { color: var(--ink-soft); font-size: 1.05rem; max-width: 460px; line-height: 1.6; }
+
+.feat-caps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 28px;
+  margin-top: 12px;
+}
+@media (max-width: 600px) { .feat-caps { grid-template-columns: 1fr; } }
+.feat-caps li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 0.93rem;
+  color: var(--ink);
+  line-height: 1.45;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.feat-caps li::before {
+  content: '→';
+  color: var(--cream);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Chat mockup */
+.feat-visual {
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(74,109,168,0.18), transparent 60%),
+    var(--surface);
+  padding: 48px 36px;
+  border-left: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+@media (max-width: 900px) { .feat-visual { border-left: none; border-top: 1px solid var(--border); padding: 36px 22px; } }
+
+/* ===== EDITORIAL CONVERSATION ===== */
+.convo-editorial {
+  position: relative;
+  width: 100%;
+  padding-left: 28px;
+}
+.convo-line {
+  position: absolute;
+  left: 0; top: 12px; bottom: 12px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(155,184,230,0.35) 15%, rgba(155,184,230,0.35) 85%, transparent);
+}
+.convo-msg {
+  margin-bottom: 32px;
+  position: relative;
+}
+.convo-msg::before {
+  content: '';
+  position: absolute;
+  left: -32px; top: 8px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--border-strong);
+}
+.convo-msg.pethra::before { background: var(--blue); box-shadow: 0 0 8px rgba(155,184,230,0.5); }
+.convo-who {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 7px;
+}
+.convo-msg.patient p {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  max-width: 300px;
+}
+.convo-msg.pethra p {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-variation-settings: "opsz" 40, "SOFT" 60;
+  color: var(--ink);
+  line-height: 1.32;
+  max-width: 360px;
+}
+.convo-msg.pethra.highlight p {
+  font-size: 1.65rem;
+  font-variation-settings: "opsz" 72, "SOFT" 80, "wght" 350;
+  letter-spacing: -0.02em;
+}
+.convo-msg.pethra.highlight .convo-accent {
+  font-style: italic;
+  color: var(--cream);
+}
+.convo-typing {
+  display: inline-flex; gap: 5px; align-items: center;
+  padding-left: 2px;
+  margin-top: -8px;
+}
+.convo-typing span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--blue);
+  opacity: 0.35;
+  animation: typeDot 1.3s infinite ease-in-out;
+}
+.convo-typing span:nth-child(2) { animation-delay: 0.18s; }
+.convo-typing span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes typeDot {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+
+/* Other services grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+@media (max-width: 900px) { .services-grid { grid-template-columns: 1fr; } }
+
+.svc {
+  background: var(--bg);
+  padding: 48px 36px;
+  display: flex; flex-direction: column;
+  gap: 20px;
+  transition: background .35s ease;
+  position: relative;
+}
+.svc:hover { background: var(--bg-elev); }
+.svc .svc-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+.svc h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-variation-settings: "opsz" 40;
+}
+.svc h3 .it { font-style: italic; color: var(--cream); }
+.svc p { color: var(--ink-soft); font-size: 0.94rem; line-height: 1.55; }
+.svc .svc-arrow {
+  margin-top: auto;
+  padding-top: 24px;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  transition: color .25s ease, gap .25s ease;
+}
+.svc:hover .svc-arrow { color: var(--cream); gap: 14px; }
+
+/* ===== PROCESSO (blueprint timeline) ===== */
+.process-section { padding: 140px 0; }
+.process-frame {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 64px 56px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.process-frame::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(155,184,230,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155,184,230,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%);
+}
+.process-frame > * { position: relative; z-index: 1; }
+.process-frame h2 {
+  font-weight: 300;
+  font-variation-settings: "opsz" 100, "wght" 320;
+  margin-bottom: 16px;
+  max-width: 680px;
+}
+.process-frame h2 .em { font-style: italic; color: var(--cream); font-variation-settings: "opsz" 100, "SOFT" 100; }
+.process-frame .sub { color: var(--ink-soft); margin-bottom: 64px; max-width: 600px; font-size: 1.05rem; }
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+@media (max-width: 900px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+.step {
+  padding: 36px 28px;
+  border-left: 1px dashed var(--border-strong);
+  position: relative;
+}
+.step:first-child { border-left: none; padding-left: 0; }
+@media (max-width: 900px) {
+  .step { border-left: none; border-top: 1px dashed var(--border-strong); padding: 32px 0; }
+  .step:first-child { border-top: none; }
+}
+.step .step-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 2.6rem;
+  font-weight: 400;
+  color: var(--cream);
+  font-variation-settings: "opsz" 80, "SOFT" 100, "wght" 360;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.step .step-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.step h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-variation-settings: "opsz" 24;
+}
+.step p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.55; }
+
+@media (max-width: 700px) { .process-frame { padding: 44px 28px; } }
+
+/* ===== SOBRE ===== */
+.sobre {
+  padding: 160px 0;
+}
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 1024px) { .sobre-grid { grid-template-columns: 1fr; gap: 40px; } }
+.sobre-grid .left { position: sticky; top: 140px; }
+@media (max-width: 1024px) { .sobre-grid .left { position: static; } }
+.sobre-grid h2 {
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "wght" 320;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.sobre-grid h2 .em { font-style: italic; color: var(--cream); font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380; }
+.sobre-grid .right { display: flex; flex-direction: column; gap: 22px; }
+.sobre-grid p { color: var(--ink-soft); font-size: 1.05rem; line-height: 1.7; }
+.sobre-grid p strong { color: var(--ink); font-weight: 600; }
+.sobre-grid p .lift { color: var(--cream); font-style: italic; }
+.sobre-grid .stamp {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 12px;
+  padding: 10px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--cream);
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+.sobre-grid .stamp svg { color: var(--cream); }
+
+/* ===== CLIENTES FUNDADORES ===== */
+.founders-section { padding: 120px 0; }
+.founders-poster {
+  position: relative;
+  padding: 96px 64px;
+  border: 1px solid var(--cream);
+  border-radius: 4px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 50%, rgba(232,217,181,0.06), transparent 70%),
+    var(--bg);
+  overflow: hidden;
+}
+.founders-poster::before, .founders-poster::after {
+  content: '';
+  position: absolute;
+  width: 80px; height: 80px;
+  border: 1px solid var(--cream);
+  pointer-events: none;
+}
+.founders-poster::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.founders-poster::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+.founders-poster .stamp {
+  display: inline-block;
+  margin-bottom: 36px;
+  padding: 8px 18px;
+  border: 1px solid var(--cream);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+.founders-poster h2 {
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "wght" 300;
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+  max-width: 880px;
+  margin-inline: auto;
+}
+.founders-poster h2 .em { font-style: italic; color: var(--cream); font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 360; }
+.founders-poster .lead {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  max-width: 620px;
+  margin: 0 auto 44px;
+  line-height: 1.55;
+}
+.founders-bullets {
+  display: flex; gap: 36px; flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 48px;
+  list-style: none;
+}
+.founders-bullets li {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink);
+  font-variation-settings: "opsz" 20, "SOFT" 100;
+}
+.founders-bullets li::before { content: '✦ '; color: var(--cream); font-style: normal; }
+.founders-poster .spots {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.founders-poster .spots .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #f97316;
+  box-shadow: 0 0 12px #f97316;
+  animation: pulseDot 1.6s infinite;
+}
+@media (max-width: 700px) { .founders-poster { padding: 64px 28px; } }
+
+/* ===== FINAL CTA ===== */
+.final-cta {
+  text-align: center;
+  padding: 180px 0;
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: var(--cream);
+}
+.final-cta h2 {
+  font-weight: 300;
+  font-variation-settings: "opsz" 144, "wght" 300;
+  font-size: clamp(2.6rem, 6vw, 5.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin-bottom: 24px;
+  max-width: 1000px;
+  margin-inline: auto;
+}
+.final-cta h2 .em { font-style: italic; color: var(--cream); font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 360; }
+.final-cta p {
+  color: var(--ink-soft);
+  font-size: 1.12rem;
+  max-width: 600px;
+  margin: 0 auto 48px;
+  line-height: 1.55;
+}
+.final-cta .cta-row { display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+.diag-form {
+  max-width: 600px; margin: 56px auto 0;
+  padding: 44px 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-align: left;
+}
+.diag-form h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  font-variation-settings: "opsz" 40;
+}
+.diag-form h3 .em { font-style: italic; color: var(--cream); }
+.diag-form > p { color: var(--ink-soft); font-size: 0.96rem; margin-bottom: 28px; }
+.field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.field label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.field input {
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  color: var(--ink);
+  padding: 13px 16px;
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  transition: border-color .25s ease;
+}
+.field input:focus { outline: none; border-color: var(--cream); }
+.diag-form button {
+  width: 100%; margin-top: 28px;
+  padding: 16px 24px;
+  background: var(--cream);
+  color: #0a0a12;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 100px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  transition: filter .25s ease, transform .25s ease;
+}
+.diag-form button:hover { filter: brightness(1.05); transform: translateY(-2px); }
+.form-foot {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  text-align: center;
+  margin-top: calc(56px + 1.5cm);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 80px 0 40px;
+  text-align: center;
+}
+.footer-logo {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 12px;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.footer-logo .mountain { color: var(--blue-bright); }
+.footer-logo .logo-text { font-size: 1.05rem; }
+.footer-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.08rem;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  font-variation-settings: "opsz" 24, "SOFT" 100;
+  line-height: 1.45;
+}
+.footer-social {
+  display: inline-flex; gap: 12px;
+  margin-bottom: 36px;
+}
+.footer-social a {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--ink-soft);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all .25s ease;
+}
+.footer-social a:hover {
+  color: #0a0a12;
+  background: var(--cream);
+  border-color: var(--cream);
+  transform: translateY(-3px);
+}
+.footer-bottom {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+/* ===== REVEAL ===== */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1); will-change: opacity, transform; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal[data-d="1"] { transition-delay: .08s; }
+.reveal[data-d="2"] { transition-delay: .16s; }
+.reveal[data-d="3"] { transition-delay: .24s; }
+.reveal[data-d="4"] { transition-delay: .32s; }
+
+/* split text reveal — letter by letter on hero h1 */
+.split-line { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.split-line .word { display: inline-block; transform: translateY(110%); transition: transform 1.1s cubic-bezier(.2,.85,.25,1); }
+.in .split-line .word { transform: translateY(0); }
+.split-line .word:nth-child(2) { transition-delay: .04s; }
+.split-line .word:nth-child(3) { transition-delay: .08s; }
+.split-line .word:nth-child(4) { transition-delay: .12s; }
+.split-line .word:nth-child(5) { transition-delay: .16s; }
+.split-line .word:nth-child(6) { transition-delay: .20s; }
+.split-line .word:nth-child(7) { transition-delay: .24s; }
+.split-line .word:nth-child(8) { transition-delay: .28s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  body::before, .aurora .orb, .marquee { animation: none !important; }
+  .split-line .word { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== AMBIENT AURORA ===== -->
+<div class="aurora" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+</div>
+
+<!-- ===== CUSTOM CURSOR ===== -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="siteHeader">
+  <nav class="nav-pill" aria-label="Navegação principal">
+    <a href="#" class="nav-logo" aria-label="Pethra - início">
+      <svg class="mountain" viewBox="0 0 100 60" width="34" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+        <path d="M50 5 L75 45 L25 45 Z" />
+        <path d="M30 20 L55 50 L5 50 Z" opacity="0.7" />
+        <path d="M70 20 L95 50 L45 50 Z" opacity="0.7" />
+      </svg>
+      <span class="logo-text">PETHRA</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#problema">Problema</a></li>
+      <li><a href="#servicos">Soluções</a></li>
+      <li><a href="#processo">Processo</a></li>
+      <li><a href="#sobre">Quem somos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+
+    <a class="nav-cta" href="#contato">
+      Conversar
+      <span class="arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-vline l1" aria-hidden="true"></div>
+  <div class="hero-vline l2" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="reveal in">
+          <span class="eyebrow">Pethra — Soluções com IA · 2026</span>
+        </div>
+
+        <h1 class="reveal in">
+          Recupere de <span class="num">15 a 30 pacientes</span> por mês com a única atendente de IA que <span class="under">agenda, atende e confirma</span> consultas 24h pela sua clínica.
+        </h1>
+
+        <div class="hero-sub reveal in" data-d="2">
+          <p>A Pethra mora no WhatsApp da sua clínica e responde em segundos. Cordial, especialista em odontologia, sem cara de robô. <em style="color: var(--cream); font-style: italic;">Implementação em 24h.</em></p>
+        </div>
+
+        <div class="hero-ctas reveal in" data-d="3">
+          <a class="btn primary" href="#contato">
+            Quero parar de perder pacientes
+            <span class="arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </a>
+          <a class="btn ghost" href="#demo">
+            Ver demonstração
+            <span class="arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="hero-meta reveal in" data-d="4">
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Atendimento</span>
+            <span class="hero-meta-value">24/7</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Implementação</span>
+            <span class="hero-meta-value">24h</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Cobertura</span>
+            <span class="hero-meta-value">Brasil</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right reveal in" data-d="2">
+        <div class="hero-preview" data-cursor="hover">
+          <video src="pethra-demo.mp4" autoplay muted loop playsinline preload="auto" aria-label="Demonstração da Pethra"></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee">
+    <span class="marquee-item">Agentes de IA <span class="sep">/</span></span>
+    <span class="marquee-item">Consultoria <span class="sep">/</span></span>
+    <span class="marquee-item">Funis de venda <span class="sep">/</span></span>
+    <span class="marquee-item">Organização <span class="sep">/</span></span>
+    <span class="marquee-item">Landing pages <span class="sep">/</span></span>
+    <span class="marquee-item">Sistema próprio <span class="sep">/</span></span>
+    <span class="marquee-item">Reativação <span class="sep">/</span></span>
+    <span class="marquee-item">Agentes de IA <span class="sep">/</span></span>
+    <span class="marquee-item">Consultoria <span class="sep">/</span></span>
+    <span class="marquee-item">Funis de venda <span class="sep">/</span></span>
+    <span class="marquee-item">Organização <span class="sep">/</span></span>
+    <span class="marquee-item">Landing pages <span class="sep">/</span></span>
+    <span class="marquee-item">Sistema próprio <span class="sep">/</span></span>
+    <span class="marquee-item">Reativação <span class="sep">/</span></span>
+  </div>
+</div>
+
+<!-- ===== PROBLEMA ===== -->
+<section id="problema">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="index">
+        <strong>01</strong>
+        Diagnóstico
+      </div>
+      <div>
+        <h2>Não é falta de paciente.<br/>É falta de <span class="italic">estrutura</span>.</h2>
+        <p class="sub">A maioria das clínicas perde dinheiro todos os dias e não consegue mapear onde. Os números abaixo são o que vemos quando entramos.</p>
+      </div>
+    </div>
+
+    <div class="problem-grid reveal">
+      <article class="problem-card">
+        <span class="marker">→ Janela noturna</span>
+        <div class="stat">70%</div>
+        <div class="label">dos contatos fora de horário</div>
+        <p>nunca retornam. Cada mensagem ignorada vira agenda da concorrência — e você nem fica sabendo.</p>
+      </article>
+
+      <article class="problem-card">
+        <span class="marker">→ Plantão zero</span>
+        <div class="stat">13h</div>
+        <div class="label">por dia sem atendente</div>
+        <p>Das 19h às 8h, ninguém responde. É exatamente nesse intervalo que o paciente decide procurar a próxima clínica.</p>
+      </article>
+
+      <article class="problem-card">
+        <span class="marker">→ Fuga semanal</span>
+        <div class="stat">3–5</div>
+        <div class="label">pacientes por semana</div>
+        <p>perdidos por demora ou falta de resposta. No mês, vira agenda cheia que poderia estar sua — e não está.</p>
+      </article>
+    </div>
+
+    <div class="problem-quote reveal">
+      <p>Pacientes não desistem de tratar. Desistem de <em>esperar</em>. A Pethra cuida pra que ninguém precise esperar de novo.</p>
+      <span class="source">— Diagnóstico Pethra · 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIFERENCIAL ===== -->
+<section class="diferencial">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow" style="margin-bottom: 36px; justify-content: center; display: inline-flex;">Por que Pethra</div>
+    </div>
+    <p class="lead-quote reveal" data-d="1">
+      Não fizemos <span class="strike">mais um bot</span>. <br/>
+      Fizemos uma <span class="em">estrutura</span>.
+    </p>
+
+    <div class="diff-list reveal" data-d="2">
+      <div class="diff-item">
+        <div class="num">01 / Foco</div>
+        <h4>Especialista, <span class="it">não generalista</span></h4>
+        <p>Entende vocabulário e ritmo de clínica. Sabe o que é canal, prótese, ortodontia. Não trava em termo técnico.</p>
+      </div>
+      <div class="diff-item">
+        <div class="num">02 / Tom</div>
+        <h4>Cordial sem <span class="it">ser robótica</span></h4>
+        <p>Conversa como uma recepcionista atenta. Cumprimenta, chama pelo nome, faz as perguntas certas.</p>
+      </div>
+      <div class="diff-item">
+        <div class="num">03 / Forma</div>
+        <h4>Construção <span class="it">sob medida</span></h4>
+        <p>Não vendemos software pronto. Construímos a Pethra com base em como sua clínica funciona.</p>
+      </div>
+      <div class="diff-item">
+        <div class="num">04 / Canal</div>
+        <h4>Mora no <span class="it">WhatsApp</span></h4>
+        <p>Onde o paciente já tá. Sem app novo, sem login. A conversa acontece no canal que ele usa todo dia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVIÇOS ===== -->
+<section class="services-section" id="servicos">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="index">
+        <strong>03</strong>
+        Soluções
+      </div>
+      <div>
+        <h2>Uma estrutura.<br/><span class="italic">Seis frentes</span>. Tudo conectado por IA.</h2>
+        <p class="sub">Cada serviço se conecta ao próximo para fechar o ciclo do paciente: do primeiro toque ao retorno. Você escolhe por onde começar — a gente entrega o sistema completo.</p>
+      </div>
+    </div>
+
+    <!-- AI Agents — featured editorial spread -->
+    <article class="feat-card reveal">
+      <div class="feat-text">
+        <div class="feat-meta">Carro-chefe / Agentes de IA</div>
+        <h3>Atendimento com Agentes de IA <span class="em">24/7</span>.</h3>
+        <p class="feat-desc">Um agente treinado especificamente pra sua clínica, morando no seu WhatsApp, respondendo paciente em segundos — todo dia, toda hora. Sem cara de robô, sem mensagem pronta, sem deixar ninguém esperando.</p>
+        <ul class="feat-caps">
+          <li>Responde em segundos, 24h por dia</li>
+          <li>Agenda consultas direto na sua agenda</li>
+          <li>Qualifica o paciente antes de marcar</li>
+          <li>Confirma e reagenda automaticamente</li>
+          <li>Reativa pacientes inativos um por um</li>
+          <li>Fala no tom da sua clínica</li>
+          <li>Aprende com cada conversa</li>
+          <li>Transfere pra humano quando precisa</li>
+        </ul>
+      </div>
+
+      <div class="feat-visual" aria-hidden="true">
+        <div class="convo-editorial">
+          <div class="convo-line"></div>
+
+          <div class="convo-msg patient">
+            <span class="convo-who">Paciente · 23:47</span>
+            <p>Oi, vocês fazem clareamento? Pra quando teria?</p>
+          </div>
+
+          <div class="convo-msg pethra">
+            <span class="convo-who">Pethra · 23:47</span>
+            <p>Fazemos sim. Tenho horário amanhã às <em>10h</em> ou quinta às <em>16h</em>. Qual fica melhor?</p>
+          </div>
+
+          <div class="convo-msg patient">
+            <span class="convo-who">Paciente · 23:48</span>
+            <p>Amanhã 10h tá ótimo</p>
+          </div>
+
+          <div class="convo-msg pethra highlight">
+            <span class="convo-who">Pethra · 23:48</span>
+            <p><span class="convo-accent">Perfeito! Agendado ✅</span><br>Te mando lembrete 2h antes.</p>
+          </div>
+
+          <div class="convo-typing"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Other services -->
+    <div class="services-grid reveal">
+      <article class="svc">
+        <span class="svc-num">02 / Consultoria</span>
+        <h3>Consultoria de <span class="it">IA</span></h3>
+        <p>Diagnóstico completo do seu fluxo. Mapeamos onde a IA gera mais valor, identificamos pontos de fuga e desenhamos o plano de implementação.</p>
+        <span class="svc-arrow">Entender →</span>
+      </article>
+
+      <article class="svc">
+        <span class="svc-num">03 / Conversão</span>
+        <h3>Funis de venda <span class="it">com IA</span></h3>
+        <p>Captação, qualificação e agendamento automatizados. O paciente entra interessado e sai marcado — sem buracos no caminho.</p>
+        <span class="svc-arrow">Construir →</span>
+      </article>
+
+      <article class="svc">
+        <span class="svc-num">04 / Operação</span>
+        <h3>Organização <span class="it">e automações</span></h3>
+        <p>Agenda, mensagens, lembretes e tarefas operando em sincronia. Sua recepção para de correr atrás do dia — passa a antecipar.</p>
+        <span class="svc-arrow">Organizar →</span>
+      </article>
+
+      <article class="svc">
+        <span class="svc-num">05 / Presença</span>
+        <h3>Landing pages <span class="it">que convertem</span></h3>
+        <p>Site profissional desenhado pra transformar visita em consulta. Estrutura, copy e design pensados pelo mesmo time que constrói seus agentes.</p>
+        <span class="svc-arrow">Publicar →</span>
+      </article>
+
+      <article class="svc">
+        <span class="svc-num">06 / Plataforma</span>
+        <h3>Sistema próprio <span class="it">pra sua clínica</span></h3>
+        <p>Painel sob medida que centraliza atendimento, agenda, base de pacientes e métricas. Tudo no seu domínio, do seu jeito.</p>
+        <span class="svc-arrow">Centralizar →</span>
+      </article>
+
+      <article class="svc">
+        <span class="svc-num">07 / Estratégia</span>
+        <h3>Estratégia <span class="it">pra sua clínica</span></h3>
+        <p>Olhamos sua clínica como negócio: posicionamento, ticket médio, retenção, recompra. A IA entra como motor, não como enfeite.</p>
+        <span class="svc-arrow">Crescer →</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESSO ===== -->
+<section class="process-section" id="processo">
+  <div class="container reveal">
+    <div class="process-frame">
+      <div class="eyebrow" style="margin-bottom: 32px;">04 — Implementação</div>
+      <h2>Tecnologia com propósito.<br/>Resultado em <span class="em">24h</span>.</h2>
+      <p class="sub">Sua clínica atendendo com IA em um dia, com acompanhamento próximo da equipe Pethra.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-tag">Diagnóstico</div>
+          <h4>Entendemos sua clínica</h4>
+          <p>Conversa rápida pra mapear sua agenda, seus serviços e onde está sua maior fuga de paciente hoje.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-tag">Configuração</div>
+          <h4>Treinamos seu agente</h4>
+          <p>Identidade, preços, horários, procedimentos. Tudo personalizado pra parecer parte da sua equipe.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-tag">Integração</div>
+          <h4>Conectamos ao seu fluxo</h4>
+          <p>WhatsApp Business + sua agenda. Testamos internamente cada cenário antes de entrar no ar.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-tag">Ativação</div>
+          <h4>Sua clínica no ar</h4>
+          <p>Acompanhamento próximo nos primeiros 30 dias. Ajustes finos com base em conversas reais.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOBRE ===== -->
+<section class="sobre" id="sobre">
+  <div class="container">
+    <div class="sobre-grid">
+      <div class="left reveal">
+        <div class="eyebrow" style="margin-bottom: 36px;">05 — Quem somos</div>
+        <h2>Tecnologia com estrutura.<br/>Estratégia com <span class="em">propósito</span>.</h2>
+      </div>
+
+      <div class="right reveal" data-d="1">
+        <p>A Pethra nasceu pra acabar com o desperdício invisível das clínicas: paciente que chega, manda mensagem e some — porque ninguém respondeu a tempo.</p>
+        <p>Somos uma empresa de soluções com IA <strong>nascida em Belo Horizonte</strong>, atendendo clínicas em <strong>todo o Brasil</strong>. Construímos agentes, funis, automações e sistemas sob medida — pensados pra rotina, linguagem e desafios de quem atende paciente todo dia.</p>
+        <p>Não vendemos software pronto. Vendemos <span class="lift">estrutura</span>: a tecnologia entra, a clínica organiza, o resultado aparece.</p>
+        <span class="stamp">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Brasil inteiro · Base em BH
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLIENTES FUNDADORES ===== -->
+<section class="founders-section">
+  <div class="container">
+    <div class="founders-poster reveal">
+      <span class="stamp">Clientes fundadores · Vagas limitadas</span>
+      <h2>Estamos aceitando um número limitado de clínicas como <span class="em">clientes fundadores</span>.</h2>
+      <p class="lead">Quem entrar agora tem condições especiais de implementação, prioridade no suporte e acompanhamento direto da equipe Pethra nos primeiros meses.</p>
+
+      <ul class="founders-bullets">
+        <li>Condições especiais</li>
+        <li>Prioridade no suporte</li>
+        <li>Acompanhamento direto</li>
+        <li>Ajustes ilimitados</li>
+      </ul>
+
+      <a class="btn primary" href="#contato">
+        Quero garantir minha vaga
+        <span class="arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+
+      <div class="spots">
+        <span class="pulse"></span>
+        Poucas vagas restantes
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta" id="contato">
+  <div class="container">
+    <div class="reveal">
+      <h2>Quantos pacientes <span class="em">você perdeu</span> essa semana?</h2>
+      <p>Conversa de 15 minutos. Você conta como funciona aí, a gente mostra a Pethra funcionando — e você decide se faz sentido.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://wa.me/5531993583616?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20a%20Pethra" target="_blank" rel="noopener">
+          Falar agora no WhatsApp
+          <span class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+        </a>
+        <a class="btn ghost" href="#diagForm">
+          Receber diagnóstico antes
+          <span class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <form class="diag-form reveal" id="diagForm" data-d="2" onsubmit="return sendDiagnostic(event)">
+      <h3>Receba seu <span class="em">diagnóstico gratuito</span></h3>
+      <p>Sem compromisso. Em 24h te mandamos uma análise inicial da sua operação e como a IA pode entrar.</p>
+
+      <div class="field">
+        <label for="dName">Seu nome</label>
+        <input type="text" id="dName" name="name" required placeholder="Pedro" />
+      </div>
+      <div class="field">
+        <label for="dClinic">Clínica e cidade</label>
+        <input type="text" id="dClinic" name="clinic" required placeholder="Clínica Sorriso · Belo Horizonte" />
+      </div>
+      <div class="field">
+        <label for="dWhats">WhatsApp</label>
+        <input type="tel" id="dWhats" name="whats" required placeholder="(31) 99999-9999" />
+      </div>
+      <button type="submit">
+        Quero meu diagnóstico
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+      <p class="form-foot">Ao enviar, o WhatsApp da Pethra abre com seus dados preenchidos.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <a href="#" class="footer-logo" aria-label="Pethra">
+      <svg class="mountain" viewBox="0 0 100 60" width="52" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+        <path d="M50 5 L75 45 L25 45 Z" />
+        <path d="M30 20 L55 50 L5 50 Z" opacity="0.7" />
+        <path d="M70 20 L95 50 L45 50 Z" opacity="0.7" />
+      </svg>
+      <span class="logo-text">PETHRA</span>
+    </a>
+
+    <p class="footer-tagline">Uma estrutura firme que sustenta, organiza e faz crescer.</p>
+
+    <div class="footer-social" aria-label="Redes sociais">
+      <a href="https://wa.me/5531993583616" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/>
+        </svg>
+      </a>
+      <a href="https://instagram.com/pethra.ia" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="mailto:contato@pethra.com.br" aria-label="E-mail">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+      
+    </div>
+
+    <div class="footer-bottom">© 2026 Pethra Soluções com IA</div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // Header scroll
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => {
+    if (window.scrollY > 20) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile menu
+  const toggle = document.getElementById('navToggle');
+  toggle && toggle.addEventListener('click', () => {
+    const open = header.classList.toggle('menu-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+      header.classList.remove('menu-open');
+      toggle && toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Reveal on scroll (hero ones already have .in by default)
+  const reveals = document.querySelectorAll('.reveal:not(.in)');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+
+  // Custom cursor — smooth follow
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (dot && ring && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    let rx = mx, ry = my;
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+    });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+
+    // Ring lag
+    function loop() {
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Hover state on data-cursor=hover elements
+    document.querySelectorAll('[data-cursor="hover"], a, button, .btn, .nav-cta').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+  } else if (dot && ring) {
+    dot.style.display = 'none';
+    ring.style.display = 'none';
+  }
+})();
+
+// Form → WhatsApp
+function sendDiagnostic(e) {
+  e.preventDefault();
+  const f = e.target;
+  const name = f.name.value.trim();
+  const clinic = f.clinic.value.trim();
+  const whats = f.whats.value.trim();
+  const msg =
+    `Olá, sou ${name} da ${clinic}. ` +
+    `Gostaria de receber o diagnóstico gratuito da Pethra. ` +
+    `Meu WhatsApp pra contato é ${whats}.`;
+  const url = `https://wa.me/5531993583616?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank', 'noopener');
+  return false;
+}
+</script>
+
+</body>
+</html>
